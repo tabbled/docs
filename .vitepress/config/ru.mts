@@ -25,6 +25,18 @@ export default defineConfig({
                 items: [
                     { text: 'Docker', link: '/ru/docker' },
                 ]
+            },
+            {
+                text: 'Конфигурация',
+                items: [
+                    { text: 'Общее', link: '/ru/configuration/general' },
+                    { text: 'Страницы', link: '/ru/configuration/pages' },
+                    { text: 'Источники данных', link: '/ru/configuration/datasources' },
+                    { text: 'Функции', link: '/ru/configuration/functions' },
+                    { text: 'Шаблоны печати', link: '/ru/configuration/templates' },
+                    { text: 'Пользователи', link: '/ru/configuration/users' },
+                    { text: 'Настройки', link: '/ru/configuration/settings' },
+                ]
             }
         ],
 
