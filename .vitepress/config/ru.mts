@@ -42,7 +42,7 @@ export default defineConfig({
 
         socialLinks: [
             { icon: 'github', link: 'https://github.com/tabbled/tabbled' },
-            { icon: 'youtube', link: 'https://youtube.com/@erp-systems' },
+            { icon: 'youtube', link: 'https://www.youtube.com/@tabbled-platform' },
             { icon: 'discord', link: 'https://discord.gg/HaaMEyzT' },
             { icon: 'twitter', link: 'https://twitter.com/the_tabbled' }
         ]
