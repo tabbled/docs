@@ -38,7 +38,14 @@ export default defineConfig({
                     { text: 'Настройки', link: '/ru/configuration/settings' },
                     { text: 'Контекст', link: '/ru/configuration/script-context' },
                 ]
-            }
+            },
+            {
+                text: 'API',
+                items: [
+                    { text: 'Введение', link: '/ru/api/intro' },
+                    { text: 'DataSource v2', link: '/ru/api/datasource-v2' },
+                ]
+            },
         ],
 
         socialLinks: [
