@@ -1,4 +1,4 @@
-# Источники данных (v2) - `в разработке`
+# Работа с источниками данных в API DataSource v2
 
 ## Конфигурация
 
@@ -86,14 +86,14 @@
 
 **Параметры тела запроса**
 
-* filters (FilterItemInterface[], optional) - фильтры 
+* filter (FilterItemInterface[], optional) - фильтры 
+* filterBy (string, optional) - фильтр с sql синтакисом, имеет приоритет над filter
 * fields (string[], optional) - выбираемые поля
-* search (string, optional) - поисковый запрос, если указаны фильтры, то с учетом фильтров
-* take (integer, optional,  default 50) - кол-во записей в выборке, макс 500
-* skip (integer, optional, default 0) - кол-во записей которые нужно пропустить
-* sort (object[], optional) - сортиировка по полям, параметры объект массива
-  * field (string, required) - поле сортировки
-  * ask (boolean, optional) - по возрастанию
+* searchBy (string[], optional) - искать по полям, если не указан, то ищет по всем полям указанных как сортируемые `sortable=true`
+* query (string, optional) - поисковый запрос, если указаны фильтры, то с учетом фильтров
+* limit (integer, optional,  default 50) - кол-во записей в выборке, макс 500
+* offset (integer, optional, default 0) - кол-во записей которые нужно пропустить
+* sort (string[], optional) - сортиировка, в формате `field_name:asc|desc`, например `name:asc`
 * route (string[], optional) - фильтр по пути записей, работает для источника с isTree = true
 * parentId (string, optional) - фильтр по родительскому элементу
 
@@ -122,9 +122,34 @@
 * item (object, required) - данные записи
   * ... все поля записи или только указанные поля в запросе
 
+### Индексировать данные
+
+Индексирует данные для быстрого поиска и фильтрации списка данных. Для индексации создается задача которая выполняется отдельным процессом, в ответ получаем `taskId` статус которого можно узнать в отдельном методе. 
+
+Если передан параметр `ids` то будет проиндексирован только указанные по идентификаторам записи.
+ 
+Данные в `internal` источнике данных индексируются автоматически.
+
+Метод: POST /v2/datasource/:alias/data/index
+
+Url параметры:
+* :alias - алиас источника данных
+
+Body параметры:
+* ids (string[], optional) - идентификаторы записей, которые необходимо проиндексировать
+
+
+Параметры ответа:
+* statusCode (int, required) - статус код
+* taskId -
+
+## История изменений записи
+
 ### Получение список изменений записи по идентификатору записи
 
-Метод: GET /v2/datasource/:alias/data/:itemId/revisions
+Возвращает список изменений по записи отсротированные по дате создания по убыванию (самые новые первые)
+
+Метод: GET /v2/datasource/:alias/data/:itemId/revision
 
 Параметры запроса:
 * :alias - алиас источника данных
@@ -132,17 +157,21 @@
 
 Параметры ответа: 
 
-* success (bool, required) - успешность запроса,
 * items (object, required) - данные записи
     * id (string, required) - ид истории изменения
     * version - версия
-    * createdBy (string, required) - ид пользователя внесшего изменения
+    * createdBy (string, required)
+      * id (int, required) - ид пользователя,
+      * username (string, required if id not null) - имя пользователя
+      * title (string, optional if id not null) - Полное имя (Имя + Фамилия) 
     * createdAt (timestamp, required) - дата и время внесения изменения
-
+* count (int, required) - кол-во записей
 
 ### Получение изменения записи по идентификатору записи и ид изменения
 
-Метод: GET /v2/datasource/:alias/data/:itemId/revisions/:revId
+Возвращает данные записи по ид изменения.
+
+Метод: GET /v2/datasource/:alias/data/:itemId/revision/:revId
 
 Параметры запроса:
 * :alias - алиас источника данных
@@ -151,11 +180,14 @@
 
 Параметры ответа:
 
-* success (bool, required) - успешность запроса,
-* item (object, required) - все данные записи истории изменения
-* revisionId - идентификатор изменения
-* version - версия
-
+* id (string, required) - идентификатор изменения
+* version (int, required) - версия
+* createdAt (timestamp, required) - дата и время внесения изменения
+* createdBy (string, required)
+  * id (int, required) - ид пользователя,
+  * username (string, required if id not null) - имя пользователя
+  * title (string, optional if id not null) - Полное имя (Имя + Фамилия)
+* data (object, required) - данные после изменения
 
 
 # Структура объектов
@@ -274,5 +306,6 @@
 
 Параметры:
 
-* code (string, optional) - код ошибки
-* description (string, required) - человекопонятное описание ошибки
+* statusCode (string, optional) - код ошибки
+* error (string, required) - описание ошибки
+* message (string[], optional) - ошибки при валидации запроса

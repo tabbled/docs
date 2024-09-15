@@ -1,7 +1,9 @@
+# Настройка Script Context: Пошаговое руководство
+
 При выполнении выражений на страницах или в функциях прокидывается глобальные переменные, 
 которые позволяют расширить функционал, выполнить проверки или дополнительную логику.
 
-# Глобальные переменные
+## Глобальные переменные
 
 * `pages` (PagesService) - позволяет работать со страницами
 * `dataSources` (DataSourceService) - сервис доступа к источникам данных
@@ -11,13 +13,13 @@
 * `message` (Message) - позволяет отобразить сообщение пользователю в виде всплыващего окна
 
 
-## PagesService
+### PagesService
 
 Доступно только при испольнении интерфейсного кода, переменная `ctx.pages`
 
-### Функции
+#### Функции
 
-#### open(alias: string, params: any)
+##### open(alias: string, params: any)
 Открыть страницу по алиасу
 
 Параметры:
@@ -39,14 +41,14 @@ ctx.pages.open('"example-entity"', {
 })
 ```
 
-#### design (alias: string)
+##### design (alias: string)
 
 Открыть страницу по алиасу в дизайнере страниц
 
 Параметры:
 * `alias`: string - алиас указанный в настройках страницы
 
-#### openDialog (options: DialogOptions)
+##### openDialog (options: DialogOptions)
 
 Открыть страницу в диалоговом окне
 
@@ -73,13 +75,13 @@ ctx.pages.openDialog({
 })
 ```
 
-## DataSourceService
+### DataSourceService
 
 Работа с источниками данных
 
-### Функции
+#### Функции
 
-#### getByAlias(alias: string) : DataSource
+##### getByAlias(alias: string) : DataSource
 
 Параметры
 
@@ -87,13 +89,13 @@ ctx.pages.openDialog({
 
 Возвращает экземпляр класса `DataSource`
 
-### DataSource
+#### DataSource
 
 Позволяет работать с данными конкретного источника данных.
 
-#### Функции
+##### Функции
 
-##### getMany(options?: GetDataManyOptions): Promise\<GetManyResponse\>
+###### getMany(options?: GetDataManyOptions): Promise\<GetManyResponse\>
 
 Возвращает набор сущностей по заданным фильтрам
 
@@ -109,39 +111,39 @@ ctx.pages.openDialog({
 * `include` (array of string) - обязательно включить записи в выборку если они даже не подходят в поиске или фильтре
 
 
-##### getById(id: string) : Promise\<EntityInterface | undefined\>
+###### getById(id: string) : Promise\<EntityInterface | undefined\>
 
 Возвращает сущность по его идентификатору
 
-##### getByKeys?(keys: any) : Promise\<EntityInterface | undefined\>
+###### getByKeys?(keys: any) : Promise\<EntityInterface | undefined\>
 
 Возвращает запись по ключевым полям, требуется для источников агрегаторов
 
-##### insert(id: string, value: any, parentId?: string, route?: string[]): Promise\<EntityInterface\>
+###### insert(id: string, value: any, parentId?: string, route?: string[]): Promise\<EntityInterface\>
 
 Добавить новую запись
 
-##### updateById(id: string, value: object): Promise\<EntityInterface\>
+###### updateById(id: string, value: object): Promise\<EntityInterface\>
 
 Обновить щапись по идентификатору
 
-##### removeById(id: string, route?: string[]): Promise\<boolean\>
+###### removeById(id: string, route?: string[]): Promise\<boolean\>
 
 Удалить запись по идентификатору, удаление мягкое, т.е. устанавливается пометка об удалении, потом запись можно найти в удаленных.
 
-##### setValue?(id: string, field: string, value: any): Promise\<void\>
+###### setValue?(id: string, field: string, value: any): Promise\<void\>
 
 Обновить значение поля по идентификатору
 
-##### setVariable?(alias: string, value: any)
+###### setVariable?(alias: string, value: any)
 
 Установить переменную для источника данных
 
-##### getFieldByAlias(alias: string): FieldInterface | undefined
+###### getFieldByAlias(alias: string): FieldInterface | undefined
 
 Возвращает параметры поля источника данных
 
-##### hasPermission(action: string, userPermissions: any)
+###### hasPermission(action: string, userPermissions: any)
 
 Возвращает, имеет ли пользователь полномочия на действие
 
@@ -150,13 +152,13 @@ ctx.pages.openDialog({
 * `Edit` - изменения
 * `Remove` - удаление
 
-## FunctionsService
+### FunctionsService
 
 Работа с функциями
 
-### Функции
+#### Функции
 
-#### invoke (alias: string, context: any) : Promise\<any\>
+##### invoke (alias: string, context: any) : Promise\<any\>
 
 Вызов функции по алиасу с передачей контекста в функцию
 
