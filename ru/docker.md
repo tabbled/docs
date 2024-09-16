@@ -1,3 +1,8 @@
+---
+title: Докер
+description: Документация Tabbled платформы | Докер
+---
+
 # Установка и настройка платформы с Docker
 
 **1. Download the docker-compose file example**
