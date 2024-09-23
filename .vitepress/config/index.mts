@@ -11,5 +11,8 @@ export default defineConfig({
     themeConfig: {
         logo: {src: '/favicon.png', width: 24, height: 24},
 
+    },
+    markdown: {
+        lineNumbers: true
     }
 })
