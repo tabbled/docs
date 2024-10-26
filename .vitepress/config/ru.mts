@@ -44,6 +44,7 @@ export default defineConfig({
                 items: [
                     { text: 'Введение', link: '/ru/api/intro' },
                     { text: 'DataSource v2', link: '/ru/api/datasource-v2' },
+                    { text: 'Pages v2', link: '/ru/api/pages-v2' },
                 ]
             },
         ],
